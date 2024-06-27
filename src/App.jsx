@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useCallback } from "react";
 import { useState } from "react";
 
@@ -9,6 +9,8 @@ function App() {
   const [lowerCaseCheck, setLowerCaseCheck] = useState(true);
   const [numberCheck, setNumberCheck] = useState(false);
   const [charCheck, setCharCheck] = useState(false);
+  const [copyBtn, setCopyBtn] = useState("COPY");
+  const passwordRef = useRef(null);
 
   const passwordGenerator = useCallback(() => {
     let pass = "";
@@ -41,22 +43,35 @@ function App() {
     length,
   ]);
 
+  function copyToClipBoard() {
+    passwordRef.current?.select();
+    setCopyBtn("COPIED");
+    setTimeout(() => {
+      setCopyBtn("COPY");
+    }, 1500);
+    window.navigator.clipboard.writeText(password);
+  }
+
   return (
     <>
       <div className="bg-slate-800 min-h-screen flex justify-center items-center w-screen">
-        <div className="flex flex-col gap-5 w-2/4">
-          <h1 className="text-5xl mb-10 text-yellow-300 font-extrabold text-center">
+        <div className="flex flex-col gap-5 lg:w-2/4">
+          <h1 className="text-4xl mb-5 text-yellow-300 font-extrabold text-center  sm:mb-10 sm:text-5xl">
             SecureGen
           </h1>
-          <div className="rounded-xl overflow-hidden w-full grid sm:grid-cols-12 select-none">
+          <div className="rounded-xl overflow-hidden w-full text-center grid sm:grid-cols-6 md:grid-cols-12 select-none">
             <input
               type="text"
               readOnly
               value={password}
-              className="py-5 px-2 font-bold text-xl sm:col-span-9 focus:outline-none "
+              ref={passwordRef}
+              className="py-5 font-bold text-xl text-slate-800 px-5 text-center sm:text-left sm:col-span-4 md:col-span-9 focus:outline-none "
             />
-            <button className="bg-blue-500 text-white py-5 px-5 font-bold text-xl sm:col-span-3">
-              Copy
+            <button
+              className="bg-green-500 text-white py-5 px-5 font-bold text-xl transition-all 0.5s hover:bg-blue-500 sm:col-span-2 md:col-span-3"
+              onClick={copyToClipBoard}
+            >
+              {copyBtn}
             </button>
           </div>
           <div className="rounded-xl bg-white p-5 flex flex-col gap-3">
