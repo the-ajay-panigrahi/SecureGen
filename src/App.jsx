@@ -9,6 +9,7 @@ function App() {
   const [lowerCaseCheck, setLowerCaseCheck] = useState(true);
   const [numberCheck, setNumberCheck] = useState(false);
   const [charCheck, setCharCheck] = useState(false);
+  const [strength, setStrength] = useState("N/A");
   const [copyBtn, setCopyBtn] = useState("COPY");
   const passwordRef = useRef(null);
 
@@ -25,6 +26,7 @@ function App() {
       pass += passString.charAt(index);
     }
 
+    passwordStrength(length);
     setPassword(pass);
   }, [
     upperCaseCheck,
@@ -48,14 +50,22 @@ function App() {
     setCopyBtn("COPIED");
     setTimeout(() => {
       setCopyBtn("COPY");
-    }, 1500);
+    }, 1000);
     window.navigator.clipboard.writeText(password);
+  }
+
+  function passwordStrength(length) {
+    if (length <= 4) setStrength("Very weak");
+    else if (length <= 6) setStrength("Weak");
+    else if (length <= 8) setStrength("Decent");
+    else if (length <= 12) setStrength("Strong");
+    else if (length <= 20) setStrength("Excellent");
   }
 
   return (
     <>
-      <div className="bg-slate-800 min-h-screen flex justify-center items-center w-screen">
-        <div className="flex flex-col gap-5 lg:w-2/4">
+      <div className="bg-slate-800 min-h-screen flex justify-center items-center w-screen overflow-hidden">
+        <div className="flex flex-col flex-wrap gap-5 px-5 lg:w-2/4">
           <h1 className="text-4xl mb-5 text-yellow-300 font-extrabold text-center  sm:mb-10 sm:text-5xl">
             SecureGen
           </h1>
@@ -76,7 +86,9 @@ function App() {
           </div>
           <div className="rounded-xl bg-white p-5 flex flex-col gap-3">
             <div className="flex justify-between items-center gap-8">
-              <div className="text-xl font-extrabold">Password Length</div>
+              <div className="text-xl font-extrabold text-slate-700">
+                Password Length
+              </div>
               <div className=" text-xl font-extrabold text-red-500">
                 {length}
               </div>
@@ -84,7 +96,7 @@ function App() {
             <div>
               <input
                 type="range"
-                min={5}
+                min={1}
                 max={20}
                 value={length}
                 onChange={(event) => {
@@ -161,6 +173,14 @@ function App() {
               >
                 Includes Symbols
               </label>
+            </div>
+            <div className="flex justify-between items-center gap-8">
+              <div className="text-xl font-extrabold text-slate-700">
+                Password Strength
+              </div>
+              <div className=" text-xl font-extrabold text-white text-center bg-black py-1 px-3 rounded-lg">
+                {strength}
+              </div>
             </div>
           </div>
         </div>
