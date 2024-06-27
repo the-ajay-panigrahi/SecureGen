@@ -6,7 +6,7 @@ function App() {
   const [password, setPassword] = useState("");
   const [length, setlength] = useState(7);
   const [upperCaseCheck, setUpperCaseCheck] = useState(false);
-  const [lowerCaseCheck, setLowerCaseCheck] = useState(false);
+  const [lowerCaseCheck, setLowerCaseCheck] = useState(true);
   const [numberCheck, setNumberCheck] = useState(false);
   const [charCheck, setCharCheck] = useState(false);
 
@@ -20,7 +20,7 @@ function App() {
 
     for (let i = 1; i <= length; i++) {
       let index = Math.floor(Math.random() * passString.length + 1);
-      pass += passString[index];
+      pass += passString.charAt(index);
     }
 
     setPassword(pass);
@@ -33,7 +33,13 @@ function App() {
     setPassword,
   ]);
 
-  // useEffect(passwordGenerator(), []);
+  useEffect(passwordGenerator, [
+    upperCaseCheck,
+    lowerCaseCheck,
+    numberCheck,
+    charCheck,
+    length,
+  ]);
 
   return (
     <>
@@ -42,12 +48,12 @@ function App() {
           <h1 className="text-5xl mb-10 text-yellow-300 font-extrabold text-center">
             SecureGen
           </h1>
-          <div className="rounded-xl overflow-hidden w-full grid sm:grid-cols-12">
+          <div className="rounded-xl overflow-hidden w-full grid sm:grid-cols-12 select-none">
             <input
               type="text"
               readOnly
               value={password}
-              className=" py-5 px-2 font-bold text-xl sm:col-span-9 focus:outline-none cursor-not-allowed"
+              className="py-5 px-2 font-bold text-xl sm:col-span-9 focus:outline-none "
             />
             <button className="bg-blue-500 text-white py-5 px-5 font-bold text-xl sm:col-span-3">
               Copy
@@ -93,6 +99,7 @@ function App() {
               <input
                 id="lowerCheckBox"
                 type="checkbox"
+                checked={lowerCaseCheck}
                 value=""
                 className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                 onChange={() => {
