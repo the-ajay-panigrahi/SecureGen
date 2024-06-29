@@ -66,7 +66,7 @@ function App() {
     <>
       <div className="bg-slate-800 min-h-screen flex justify-center items-center w-screen overflow-hidden">
         <div className="flex flex-col flex-wrap gap-5 px-5 lg:w-2/4">
-          <h1 className="text-4xl mb-5 text-yellow-300 font-extrabold text-center  sm:mb-10 sm:text-5xl">
+          <h1 className="text-4xl mb-5 text-white font-extrabold text-center  sm:mb-10 sm:text-5xl custom-font">
             SecureGen
           </h1>
           <div className="rounded-xl overflow-hidden w-full text-center grid sm:grid-cols-6 md:grid-cols-12 select-none">
